@@ -364,18 +364,18 @@ h6,
 }
 
 
-/*** Team ***/
-.team-item {
+/*** Notice ***/
+.notice-item {
     position: relative;
     padding: 4rem 0;
 }
 
-.team-item img {
+.notice-item img {
     position: relative;
     z-index: 2;
 }
 
-.team-item .team-text {
+.notice-item .notice-text {
     position: absolute;
     top: 0;
     right: 3rem;
@@ -392,29 +392,29 @@ h6,
     z-index: 1;
 }
 
-.team-item:hover .team-text {
+.notice-item:hover .notice-text {
     background: var(--primary);
     border-color: var(--primary);
 }
 
-.team-item .team-text h4 {
+.notice-item .notice-text h4 {
     transition: .5s;
 }
 
-.team-item:hover .team-text h4 {
+.notice-item:hover .notice-text h4 {
     color: #FFFFFF;
 }
 
-.team-item .team-social .btn {
+.notice-item .notice-social .btn {
     background: var(--light);
     color: var(--primary);
 }
 
-.team-item:hover .team-social .btn {
+.notice-item:hover .notice-social .btn {
     background: #FFFFFF;
 }
 
-.team-item .team-social .btn:hover {
+.notice-item .notice-social .btn:hover {
     background: var(--primary);
     color: var(--light);
 }
@@ -543,4 +543,85 @@ h6,
 
 .copyright a:hover {
     color: var(--primary);
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px var(--tertiary);
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    font-size: 0.95em;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+th:last-child, td:last-child {
+    border-right: none;
+}
+
+/* 열 너비 조정 */
+th:nth-child(1), td:nth-child(1) { width: 7%; } /* 번호 */
+th:nth-child(2), td:nth-child(2) { width: 10%; } /* 유형 */
+th:nth-child(4), td:nth-child(4) { width: 10%; } /* 작성일 */
+th:nth-child(5), td:nth-child(5) { width: 7%; } /* 조회 */
+th:nth-child(3) { width: 66%; } /* 제목 */
+td:nth-child(3) { width: 66%; text-align: left; padding-left: 20px; }
+
+th {
+    background-color: var(--primary);
+    color: var(--light);
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+}
+
+tr:hover {
+    background-color: #f1f8ff;
+    transition: background-color 0.3s;
+}
+
+.notice-title {
+    color: var(--dark);
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.notice-title:hover {
+    color: var(--primary);
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+.page-item {
+    margin: 0 5px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--primary);
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.page-item:hover {
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+.page-item.active {
+    background-color: var(--primary);
+    color: #ffffff;
 }
