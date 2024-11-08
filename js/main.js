@@ -110,6 +110,39 @@
         }
     });
 
+    // Login Function
+    $('#loginForm').on('submit', function(event) {
+        event.preventDefault(); // 폼 제출을 막음
+
+        const username = $('#username').val();
+        const password = $('#password').val();
+        const loginMessage = $('#loginMessage');
+
+        // 여러 명의 사용자 데이터 (임의 데이터)
+        const mockUsers = [
+            { email: "test", password: "password123" },
+            { email: "consultant", password: "consultantPass" },
+            { email: "admin", password: "admin1234" },
+            { email: "user1", password: "userpass1" }
+        ];
+
+        // 입력된 아이디와 비밀번호가 mockUsers 배열의 사용자와 일치하는지 확인
+        const user = mockUsers.find(user => user.email === username && user.password === password);
+
+        if (user) {
+            loginMessage.removeClass('text-danger').addClass('text-success');
+            loginMessage.text(`컨설턴트님, 환영합니다.`);
+
+            // 로그인 성공 시 리다이렉트 (1초 후)
+            setTimeout(function() {
+                window.location.href = "dashboard.html"; // 대시보드 페이지로 이동
+            }, 1000);
+        } else {
+            loginMessage.removeClass('text-success').addClass('text-danger');
+            loginMessage.text("Invalid username or password.");
+        }
+    });
+
     
 })(jQuery);
 
