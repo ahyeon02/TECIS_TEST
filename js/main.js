@@ -143,6 +143,69 @@
         }
     });
 
+
+    // 로그인 여부 확인 (비회원 상태로 설정)
+    const isLoggedIn = false;
+
+    // 공지사항 클릭 시 이동 또는 알림
+    function viewNotice(noticeId) {
+        if (isLoggedIn) {
+            window.location.href = `notice_${noticeId}.html`;
+        } else {
+            alert("공지사항 조회는 회원만 가능합니다. 로그인 후 이용해 주세요.");
+        }
+    }
+
+    // 한 페이지당 표시할 공지사항 수
+    const itemsPerPage = 3;
+    let currentPage = 1;
+
+    // 페이지네이션 버튼을 생성하는 함수
+    function setupPagination() {
+        const totalItems = document.querySelectorAll('.notice-item').length;
+        const pageCount = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        for (let i = 1; i <= pageCount; i++) {
+            const pageItem = document.createElement('span');
+            pageItem.classList.add('page-item');
+            pageItem.textContent = i;
+            pageItem.onclick = () => {
+                currentPage = i;
+                displayNotices(currentPage);
+                updatePagination();
+            };
+            pagination.appendChild(pageItem);
+        }
+        updatePagination();
+    }
+
+    // 선택된 페이지에 맞는 공지사항만 표시하는 함수
+    function displayNotices(page) {
+        const noticeItems = document.querySelectorAll('.notice-item');
+        noticeItems.forEach(item => {
+            item.style.display = item.getAttribute('data-page') == page ? '' : 'none';
+        });
+    }
+
+    // 페이지네이션 상태를 업데이트하는 함수
+    function updatePagination() {
+        const pageItems = document.querySelectorAll('.page-item');
+        pageItems.forEach((item, index) => {
+            if (index + 1 === currentPage) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    // 초기 설정
+    displayNotices(currentPage);
+    setupPagination();
+
+
     
 })(jQuery);
 

@@ -209,3 +209,52 @@ $(function () {
   };
   new ApexCharts(document.querySelector("#earning"), earning).render();
 })
+
+
+const itemsPerPage = 3;
+let currentPage = 1;
+  
+// 페이지네이션 생성
+function setupPagination() {
+  const totalItems = document.querySelectorAll('.student-item').length;
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
+  const pagination = document.getElementById('pagination');
+  pagination.innerHTML = '';
+  
+  for (let i = 1; i <= pageCount; i++) {
+    const pageItem = document.createElement('span');
+    pageItem.classList.add('page-item');
+    pageItem.textContent = i;
+    pageItem.onclick = () => {
+      currentPage = i;
+      displayNotices(currentPage);
+      updatePagination();
+    };
+    pagination.appendChild(pageItem);
+  }
+  updatePagination();
+}
+  
+// 공지사항 표시
+function displayNotices(page) {
+  const noticeItems = document.querySelectorAll('.student-item');
+  noticeItems.forEach(item => {
+    item.style.display = item.getAttribute('data-page') == page ? '' : 'none';
+  });
+}
+  
+// 페이지네이션 상태 업데이트
+function updatePagination() {
+  const pageItems = document.querySelectorAll('.page-item');
+  pageItems.forEach((item, index) => {
+    if (index + 1 === currentPage) {
+      item.classList.add('active');
+    } else {
+      item.classList.remove('active');
+    }
+  });
+}
+  
+// 초기 설정
+  displayNotices(currentPage);
+  setupPagination();
