@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TECIS - 컨설턴트 페이지</title>
-  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+  <link rel="shortcut icon" type="icon" href="img/tecis_logo-03.png" />
   <link rel="stylesheet" href="assets/css/styles.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -195,20 +195,21 @@
                           <h6 class="fw-semibold mb-0">학생 코드</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Assigned</h6>
-                        </th>
-                        <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">학생 이름</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">진행 회차</h6>
+                          <h6 class="fw-semibold mb-0">시작 날짜</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">종료 날짜</h6>
                         </th>
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">진행 상태</h6>
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="post-results">
+                      
                       <tr class="student-item" data-page="1">
                         <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
                         <td class="border-bottom-0">
@@ -280,11 +281,12 @@
                             <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
                           </div>
                         </td>
-                      </tr>                       
+                      </tr>         
+                            
                     </tbody>
                   </table>
-                  <div class="pagination" id="pagination"></div>
                 </div>
+                <div class="pagination" id="pagination"></div>
               </div>
             </div>
           </div>

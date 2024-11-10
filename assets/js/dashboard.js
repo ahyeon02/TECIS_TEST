@@ -211,7 +211,7 @@ $(function () {
 })
 
 
-const itemsPerPage = 3;
+const itemsPerPage = 5;
 let currentPage = 1;
   
 // 페이지네이션 생성
@@ -258,3 +258,37 @@ function updatePagination() {
 // 초기 설정
   displayNotices(currentPage);
   setupPagination();
+
+  //학생 데이터
+const posts = [
+  { id: 1, title: "Sunil Joshi", assigned: "Web Designer", session: "$3.9", status: "Low", files: [
+      { name: "sunil_profile.pdf", path: "path/to/sunil_profile.pdf" },
+      { name: "portfolio.docx", path: "path/to/portfolio.docx" }
+  ]},
+  { id: 2, title: "Andrew McDownland", assigned: "Project Manager", session: "$24.5k", status: "Medium", files: [
+      { name: "andrew_report.pdf", path: "path/to/andrew_report.pdf" },
+      { name: "andrew_resume.docx", path: "path/to/andrew_resume.docx" },
+      { name: "project_details.xlsx", path: "path/to/project_details.xlsx" }
+  ]},
+  { id: 3, title: "Christopher Jamil", assigned: "Project Manager", session: "$12.8k", status: "High", files: [
+      { name: "christopher_plan.pdf", path: "path/to/christopher_plan.pdf" },
+      { name: "jamil_notes.txt", path: "path/to/jamil_notes.txt" }
+  ]},
+  { id: 4, title: "Nirav Joshi", assigned: "Frontend Engineer", session: "$2.4k", status: "Critical", files: [
+      { name: "nirav_code.pdf", path: "path/to/nirav_code.pdf" },
+      { name: "frontend_design.docx", path: "path/to/frontend_design.docx" }
+  ]}
+];
+
+// 검색 필터 함수
+function searchPosts() {
+  const query = document.getElementById("search-input").value.toLowerCase();
+  const filter = document.getElementById("filter-select").value;
+
+  posts.forEach(post => {
+      post.isVisible = (filter === "title" ? post.title : post.id.toString()).toLowerCase().includes(query);
+  });
+
+  currentPage = 1;
+  displayPosts();
+}
