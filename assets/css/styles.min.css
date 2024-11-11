@@ -42,3 +42,52 @@
     background-color: var(--bs-primary);
     color: #ffffff;
 }
+
+table {
+    width: 100%;
+    border-collapse: separate; /* 둥근 테두리를 위해 separate 사용 */
+    border-spacing: 0; /* 셀 간 간격을 없애기 */
+    border: 1px solid #ddd; /* 테이블 외곽 테두리 */
+    border-radius: 10px; /* 테두리 둥글게 */
+    overflow: hidden; /* 테두리 둥근 모서리 부분이 잘리도록 */
+  }
+
+table thead tr {
+    background-color: var(--bs-primary);
+  }
+
+table thead th {
+    color: var(--bs-light);
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+}
+
+.post-row:hover {
+    background: var(--bs-info-border-subtle);
+    border-color: var(--bs-info-border-subtle); /* 파일 항목에 마우스 올렸을 때 강조 */
+  }
+
+.file-list-container {
+    padding: 10px;
+  }
+  
+.file-list-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+.file-item {
+    padding: 8px 0;
+    border-top: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+.file-item:first-child {
+    border-top: none; /* 첫 번째 항목 위에는 줄을 표시하지 않음 */
+  }
+  
+.file-item:hover {
+    background: var(--bs-info-border-subtle);
+    border-color: var(--bs-info-border-subtle); /* 파일 항목에 마우스 올렸을 때 강조 */
+  }

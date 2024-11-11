@@ -211,84 +211,175 @@ $(function () {
 })
 
 
-const itemsPerPage = 5;
-let currentPage = 1;
-  
-// 페이지네이션 생성
-function setupPagination() {
-  const totalItems = document.querySelectorAll('.student-item').length;
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
-  const pagination = document.getElementById('pagination');
-  pagination.innerHTML = '';
-  
-  for (let i = 1; i <= pageCount; i++) {
-    const pageItem = document.createElement('span');
-    pageItem.classList.add('page-item');
-    pageItem.textContent = i;
-    pageItem.onclick = () => {
-      currentPage = i;
-      displayNotices(currentPage);
-      updatePagination();
-    };
-    pagination.appendChild(pageItem);
-  }
-  updatePagination();
-}
-  
-// 공지사항 표시
-function displayNotices(page) {
-  const noticeItems = document.querySelectorAll('.student-item');
-  noticeItems.forEach(item => {
-    item.style.display = item.getAttribute('data-page') == page ? '' : 'none';
-  });
-}
-  
-// 페이지네이션 상태 업데이트
-function updatePagination() {
-  const pageItems = document.querySelectorAll('.page-item');
-  pageItems.forEach((item, index) => {
-    if (index + 1 === currentPage) {
-      item.classList.add('active');
-    } else {
-      item.classList.remove('active');
-    }
-  });
-}
-  
-// 초기 설정
-  displayNotices(currentPage);
-  setupPagination();
-
-  //학생 데이터
 const posts = [
-  { id: 1, title: "Sunil Joshi", assigned: "Web Designer", session: "$3.9", status: "Low", files: [
-      { name: "sunil_profile.pdf", path: "path/to/sunil_profile.pdf" },
+  { id: 1, name: "윤서준", start: "2024-02-17", finish: "2024-10-23", status: "종결", files: [
+      { name: "test.pdf", path: "pdf/lab0-setup.pdf" },
       { name: "portfolio.docx", path: "path/to/portfolio.docx" }
   ]},
-  { id: 2, title: "Andrew McDownland", assigned: "Project Manager", session: "$24.5k", status: "Medium", files: [
+  { id: 2, name: "김예진", start: "2024-04-22", finish: "-", status: "진행중", files: [
       { name: "andrew_report.pdf", path: "path/to/andrew_report.pdf" },
-      { name: "andrew_resume.docx", path: "path/to/andrew_resume.docx" },
-      { name: "project_details.xlsx", path: "path/to/project_details.xlsx" }
+      { name: "andrew_resume.docx", path: "path/to/andrew_resume.docx" }
   ]},
-  { id: 3, title: "Christopher Jamil", assigned: "Project Manager", session: "$12.8k", status: "High", files: [
+  { id: 3, name: "서수현", start: "2024-04-25", finish: "2024-09-11", status: "종결", files: [
       { name: "christopher_plan.pdf", path: "path/to/christopher_plan.pdf" },
       { name: "jamil_notes.txt", path: "path/to/jamil_notes.txt" }
   ]},
-  { id: 4, title: "Nirav Joshi", assigned: "Frontend Engineer", session: "$2.4k", status: "Critical", files: [
+  { id: 4, name: "김지민", start: "2024-05-13", finish: "-", status: "진행중", files: [
       { name: "nirav_code.pdf", path: "path/to/nirav_code.pdf" },
       { name: "frontend_design.docx", path: "path/to/frontend_design.docx" }
   ]}
 ];
 
-// 검색 필터 함수
-function searchPosts() {
-  const query = document.getElementById("search-input").value.toLowerCase();
-  const filter = document.getElementById("filter-select").value;
+let filteredPosts = posts;  // 검색 및 페이지네이션에 사용되는 배열
+const postsPerPage = 5;  // 페이지당 게시글 수
+let currentPage = 1;
 
-  posts.forEach(post => {
-      post.isVisible = (filter === "title" ? post.title : post.id.toString()).toLowerCase().includes(query);
+// 페이지네이션 및 게시글 표시 함수
+function displayPosts() {
+  const start = (currentPage - 1) * postsPerPage;
+  const end = start + postsPerPage;
+  const paginatedPosts = filteredPosts.slice(start, end); // `filteredPosts` 사용
+
+  const postResults = document.getElementById("post-results");
+  postResults.innerHTML = '';
+
+  paginatedPosts.forEach(post => {
+      // 게시글 행
+      const row = document.createElement("tr");
+      row.classList.add("post-row");
+      row.onclick = () => toggleFileList(post.id);
+      row.style.cursor = "pointer";
+      row.innerHTML = `
+          <td class="border-bottom-0"><h6 class="fw-semibold mb-0">${post.id}</h6></td>
+          <td class="border-bottom-0">
+            <h6 class="fw-semibold mb-1">${post.name}</h6>
+          </td>
+          <td class="border-bottom-0">
+            <p class="mb-0 fw-normal">${post.start}</p>
+          </td>
+          <td class="border-bottom-0">
+            <p class="mb-0 fw-normal">${post.finish}</p>
+          </td>
+          <td class="border-bottom-0">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-primary rounded-3 fw-semibold">${post.status}</span>
+            </div>
+          </td>
+      `;
+      postResults.appendChild(row);
+
+      // 파일 리스트 행 (초기에 숨김)
+      const fileRow = document.createElement("tr");
+      fileRow.classList.add("file-list");
+      fileRow.id = `file-list-${post.id}`;
+      fileRow.style.display = "none"; // 초기 숨김 설정
+      fileRow.innerHTML = `
+          <td colspan="5">
+              <ul>
+                  ${post.files.map(file => `<li class="file-item" onclick="openFile('${file.path}', '${file.name}')">${file.name}</li>`).join('')}
+              </ul>
+          </td>
+      `;
+      postResults.appendChild(fileRow);
   });
 
-  currentPage = 1;
-  displayPosts();
+  setupPagination();
 }
+
+// 파일 리스트 표시/숨김 함수
+function toggleFileList(postId) {
+  const fileRow = document.getElementById(`file-list-${postId}`);
+  fileRow.style.display = fileRow.style.display === "none" ? "table-row" : "none";
+}
+
+// 파일 열기 함수
+function openFile(filePath, fileName) {
+  window.open(filePath, "_blank"); // 파일 새 창 열기
+}
+
+// 검색 함수
+function searchPosts() {
+  const query = document.getElementById("search-input").value;
+  const filter = document.getElementById("filter-select").value;
+  const postResults = document.getElementById("post-results");
+  postResults.innerHTML = ''; // 기존 결과 초기화
+
+  // 필터에 따라 게시글 필터링
+  filteredPosts = posts.filter(post => {
+    if (filter === "name") {
+        return post.name.includes(query);
+    } else if (filter === "id") {
+        return post.id.toString().includes(query);
+    }
+    return false;
+});
+
+  // 검색 결과 표시
+  filteredPosts.forEach(post => {
+      const postDiv = document.createElement("tr");
+      postDiv.classList.add("post-row");
+      postDiv.onclick = () => toggleFileList(post.id);
+      postDiv.style.cursor = "pointer";
+      postDiv.innerHTML = `
+        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">${post.id}</h6></td>
+        <td class="border-bottom-0">
+          <h6 class="fw-semibold mb-1">${post.name}</h6>
+        </td>
+        <td class="border-bottom-0">
+          <p class="mb-0 fw-normal">${post.start}</p>
+        </td>
+        <td class="border-bottom-0">
+          <p class="mb-0 fw-normal">${post.finish}</p>
+        </td>
+        <td class="border-bottom-0">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary rounded-3 fw-semibold">${post.status}</span>
+          </div>
+        </td>
+      `;
+      postResults.appendChild(postDiv);
+      
+      const fileRow = document.createElement("tr");
+      fileRow.classList.add("file-list");
+      fileRow.id = `file-list-${post.id}`;
+      fileRow.style.display = "none"; // 초기 숨김 설정
+      fileRow.innerHTML = `
+          <td colspan="5">
+              <ul>
+                  ${post.files.map(file => `<li class="file-item" onclick="openFile('${file.path}', '${file.name}')">${file.name}</li>`).join('')}
+              </ul>
+          </td>
+      `;
+      postResults.appendChild(fileRow);
+  });
+
+  // 결과가 없을 경우
+  if (filteredPosts.length === 0) {
+      postResults.innerHTML = '<p>검색 결과가 없습니다.</p>';
+  }
+
+  // 검색 결과에 맞게 페이지네이션 재설정
+  setupPagination();
+}
+
+// 페이지네이션 버튼 생성 함수
+function setupPagination() {
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const paginationContainer = document.getElementById("pagination");
+  paginationContainer.innerHTML = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+      const pageButton = document.createElement("span");
+      pageButton.classList.add("page-item");
+      pageButton.innerText = i;
+      pageButton.onclick = () => {
+          currentPage = i;
+          displayPosts();
+      };
+      if (i === currentPage) pageButton.classList.add("active");
+      paginationContainer.appendChild(pageButton);
+  }
+}
+
+// 초기 게시글 표시
+displayPosts();

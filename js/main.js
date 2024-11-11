@@ -210,7 +210,7 @@
     }
 
     // 한 페이지당 표시할 공지사항 수
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
     let currentPage = 1;
 
     // 페이지네이션 버튼을 생성하는 함수
