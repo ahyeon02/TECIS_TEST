@@ -91,3 +91,8 @@ table thead th {
     background: var(--bs-info-border-subtle);
     border-color: var(--bs-info-border-subtle); /* 파일 항목에 마우스 올렸을 때 강조 */
   }
+
+.board-container {
+  display: flex;
+  justify-content: flex-end;
+}

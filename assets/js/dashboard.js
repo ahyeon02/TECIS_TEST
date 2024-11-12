@@ -362,6 +362,12 @@ function searchPosts() {
   setupPagination();
 }
 
+document.getElementById("search-input").addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+    searchPosts();  // 엔터를 눌렀을 때 검색 함수 호출
+  }
+});
+
 // 페이지네이션 버튼 생성 함수
 function setupPagination() {
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);

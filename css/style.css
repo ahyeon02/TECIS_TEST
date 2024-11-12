@@ -568,11 +568,11 @@ th:last-child, td:last-child {
 
 /* 열 너비 조정 */
 th:nth-child(1), td:nth-child(1) { width: 7%; } /* 번호 */
-th:nth-child(2), td:nth-child(2) { width: 10%; } /* 유형 */
+th:nth-child(2), td:nth-child(2) { width: 13%; } /* 유형 */
 th:nth-child(4), td:nth-child(4) { width: 10%; } /* 작성일 */
 th:nth-child(5), td:nth-child(5) { width: 7%; } /* 조회 */
-th:nth-child(3) { width: 66%; } /* 제목 */
-td:nth-child(3) { width: 66%; text-align: left; padding-left: 20px; }
+th:nth-child(3) { width: 63%; } /* 제목 */
+td:nth-child(3) { width: 63%; text-align: left; padding-left: 20px; }
 
 th {
     background-color: var(--primary);

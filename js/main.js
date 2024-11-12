@@ -258,7 +258,6 @@
     displayNotices(currentPage);
     setupPagination();
 
-
     
 })(jQuery);
 
